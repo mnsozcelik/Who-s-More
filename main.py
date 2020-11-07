@@ -36,6 +36,9 @@ while True:
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     # Detect faces in the grayscale image |EN
     # Gri tonlamalı görüntüdeki yüzleri algıla |TR
+    
+    height, width, channels = image.shape
+    
     rects = detector(gray, 0)
     
     # The gamers array where players' data is kept |EN
@@ -115,8 +118,16 @@ while True:
         blue=0
         green=0
         red=255
-    cv2.circle(image, (gamers[2][0], gamers[2][1] -50), 110, (blue, green, red), 5)
-    cv2.circle(image, (gamers[3][0], gamers[3][1] -50), 110, (blue, green, red), 5)
+    
+    
+    if(gamers[0]=="sag" or gamers[0]=="sol" or gamers[0]=="orta"):
+        cv2.circle(image, (gamers[2][0], gamers[2][1] -50), 100, (blue, green, red), 5)
+        
+    if(gamers[1]=="sag" or gamers[1]=="sol" or gamers[1]=="orta"):
+        cv2.circle(image, (gamers[3][0], gamers[3][1] -50), 100, (blue, green, red), 5)
+    
+    cv2.rectangle(image, (int(width/2)-150,0) , (int(width/2)+150,50), ((blue, green, red)),cv2.FILLED)
+    cv2.putText(image, 'Kim daha cimri?', (int(width/2)-140,25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 2, cv2.LINE_AA) 
     # show the output image with the face detections + facial landmarks
     
    
