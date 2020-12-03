@@ -11,7 +11,45 @@ from imutils import face_utils
 import dlib
 import cv2
 import math
- 
+import random
+
+def GetQuestion(endBool):
+    QP=["Kim Daha CIMRI",
+        "Kim Daha KURNAZ",
+        "Kim Daha YUREKLI",
+        "Kim Daha HAYVAN SEVER",
+        "Kim Daha INANCLI",
+        "Kim Daha ACIMASIZ",
+        "Kim Daha DENGESIZ",
+        "Kim Daha HOSGORULU",
+        "Kim Daha SASKIN",
+        "Kim Daha GAMSIZ",
+        "Kim Daha FEDAKAR",
+        "Kim Daha SIRIN",
+        "Kim Daha AC",
+        "Kim Daha ZENGIN",
+        "Kim Daha KORKAK",
+        "Kim Daha TELASLI",
+        "Kim Daha ZEKI",
+        "Kim Daha ASABI",
+        "Kim Daha Bitti Cikmak Icin ESC tusuna bas. \n:)"]
+    questionvalue=(len(QP))-1;
+    a = random.randint(0,questionvalue);
+    print(a)
+    question=QP[a]
+    QP.remove(QP[a])
+    if(endBool):
+        return QP[len(QP)-1]
+    return question
+
+
+questionText="Sorular Hemen Geliyor!"
+getQuestionValue=0
+nextQuestionValue=0
+r1=119
+g1=136
+b1=153
+timeCounter=0
 # initialize dlib's face detector and then create |EN
 # dlib'in yüz algılayıcısını başlat ve sonra oluştur |TR
 # the facial landmark predictor |EN
@@ -104,32 +142,62 @@ while True:
             cv2.circle(image, (x, y), 2, (0, 255, 0), -1)
         """
     if((gamers[0]=="sag" and gamers[1]=="sag") or (gamers[0]=="sol" and gamers[1]=="sol")):
-        print ("Doğru")
         blue=0
         green=255
         red=0
-    elif(gamers[0]=="orta" or gamers[1]=="orta"):
-        print("Soruyu cevaplayın!")
+        cv2.putText(image, 'Birlikte +1', (int(width/2)-120,height-50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (blue, green, red), 2, cv2.LINE_AA)
+        getQuestionValue=1
+    elif(gamers[0]=="orta" and gamers[1]=="orta"):
         blue=153
         green=136
         red=119
-    else:
-        print("Yanlış")
+        cv2.putText(image, 'Lutfen Soruyu cevaplayin!', (int(width/2)-120,height-50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (blue, green, red), 2, cv2.LINE_AA)
+    elif((gamers[0]=="sag" and gamers[1]=="sol") or (gamers[0]=="sol" and gamers[1]=="sag")):
         blue=0
         green=0
         red=255
-    
-    
+        cv2.putText(image, 'Birlikte Degil -1', (int(width/2)-120,height-50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (blue, green, red), 2, cv2.LINE_AA) 
+        getQuestionValue=1
+    else:
+        blue=153
+        green=136
+        red=119
+        cv2.putText(image, 'Lutfen Ikinci Oyuncuyu Bekleyin!', (int(width/2)-120,height-50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (blue, green, red), 2, cv2.LINE_AA)
+   
+
     if(gamers[0]=="sag" or gamers[0]=="sol" or gamers[0]=="orta"):
         cv2.circle(image, (gamers[2][0], gamers[2][1] -50), 100, (blue, green, red), 5)
         
     if(gamers[1]=="sag" or gamers[1]=="sol" or gamers[1]=="orta"):
         cv2.circle(image, (gamers[3][0], gamers[3][1] -50), 100, (blue, green, red), 5)
     
-    cv2.rectangle(image, (int(width/2)-150,0) , (int(width/2)+150,50), ((blue, green, red)),cv2.FILLED)
-    cv2.putText(image, 'Kim daha cimri?', (int(width/2)-140,25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 2, cv2.LINE_AA) 
-    # show the output image with the face detections + facial landmarks
+    if(questionText=="Sorular Hemen Geliyor!"):
+        getQuestionValue=1
+        
+    timeCounter+=1
+    if(timeCounter%40==0):
+        nextQuestionValue=1
     
+    if(nextQuestionValue==0):
+        getQuestionValue=0
+    if(getQuestionValue==1 and nextQuestionValue==1):
+        questionText=GetQuestion(False)
+        getQuestionValue=0
+        nextQuestionValue=0
+        
+    if(nextQuestionValue==1):
+            r1=0
+            g1=255
+            b1=0
+    if(nextQuestionValue==0):
+            r1=255
+            g1=0
+            b1=0
+    
+    cv2.rectangle(image, (int(width/2)-175,0) , (int(width/2)+175,50), ((blue, green, red)),cv2.FILLED)
+    cv2.circle(image, (int(width/2)+155,15), 15, (b1, g1, r1), -1)
+    cv2.putText(image, str(questionText), (int(width/2)-175,25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 2, cv2.LINE_AA)
+    # show the output image with the face detections + facial landmarks
    
     cv2.imshow("Who's More", image)
     k = cv2.waitKey(5) & 0xFF
