@@ -42,6 +42,7 @@ questionText="Sorular Hemen Geliyor!"
 getQuestionValue=0
 nextQuestionValue=0
 timeCounter=0
+
 # initialize dlib's face detector and then create |EN
 # dlib'in yüz algılayıcısını başlat ve sonra oluştur |TR
 # the facial landmark predictor |EN
