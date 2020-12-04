@@ -172,11 +172,14 @@ while True:
     
     if(nextQuestionValue==0):
         getQuestionValue=0
+        
     if(getQuestionValue==1 and nextQuestionValue==1):
         questionText=GetQuestion(False)
         getQuestionValue=0
         nextQuestionValue=0
+        
     cv2.rectangle(image, (int(width/2)-175,0) , (int(width/2)+175,50), ((blue, green, red)),cv2.FILLED)
+    
     cv2.putText(image, str(questionText), (int(width/2)-175,25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 2, cv2.LINE_AA)
     # show the output image with the face detections + facial landmarks
    
