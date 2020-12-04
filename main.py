@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Oct 27 22:02:19 2020
-
 @author: mnsoz
 """
-
 # import the necessary packages |EN
 # Gerekli paketleri içe aktar |TR
 from imutils import face_utils
@@ -33,22 +31,16 @@ def GetQuestion(endBool):
         "Kim Daha ZEKI",
         "Kim Daha ASABI",
         "Kim Daha Bitti Cikmak Icin ESC tusuna bas. \n:)"]
-    questionvalue=(len(QP))-1;
+    questionvalue=(len(QP))-2;
     a = random.randint(0,questionvalue);
-    print(a)
     question=QP[a]
     QP.remove(QP[a])
     if(endBool):
         return QP[len(QP)-1]
     return question
-
-
 questionText="Sorular Hemen Geliyor!"
 getQuestionValue=0
 nextQuestionValue=0
-r1=119
-g1=136
-b1=153
 timeCounter=0
 # initialize dlib's face detector and then create |EN
 # dlib'in yüz algılayıcısını başlat ve sonra oluştur |TR
@@ -184,18 +176,7 @@ while True:
         questionText=GetQuestion(False)
         getQuestionValue=0
         nextQuestionValue=0
-        
-    if(nextQuestionValue==1):
-            r1=0
-            g1=255
-            b1=0
-    if(nextQuestionValue==0):
-            r1=255
-            g1=0
-            b1=0
-    
     cv2.rectangle(image, (int(width/2)-175,0) , (int(width/2)+175,50), ((blue, green, red)),cv2.FILLED)
-    cv2.circle(image, (int(width/2)+155,15), 15, (b1, g1, r1), -1)
     cv2.putText(image, str(questionText), (int(width/2)-175,25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 2, cv2.LINE_AA)
     # show the output image with the face detections + facial landmarks
    
