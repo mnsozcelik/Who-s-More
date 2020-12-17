@@ -11,6 +11,7 @@ import dlib
 import cv2
 import math
 import random
+import os
 
 def GetQuestion(endBool):
     QP=["Kim Daha CIMRI",
@@ -36,7 +37,7 @@ def GetQuestion(endBool):
     question=QP[a]
     QP.remove(QP[a])
     if(endBool):
-        return "Kim Daha Bitti Cikmak Icin ESC tusuna bas. \n:)"
+        return "Kim Daha Bitti GORUSURUZ :)"
     return question
 
 print("Oyun Basliyor..")
@@ -45,6 +46,8 @@ gamersScore=0
 getQuestionValue=0
 timeCounter=0
 nextQuestionValue=0
+questionCounter=0
+finishBool=False
 questionText="Sorular Hemen Geliyor!"
 # initialize dlib's face detector and then create |EN
 
@@ -61,14 +64,12 @@ print("Kamera Açıldı Görüntü İşleme İşlemi Başlıyor..")
 while True:
     
     # Colors of the circle on the wearer's face |EN
-    
     # Kullanıcının yüzündeki dairenin renkleri |TR
     red=0
     green=0
     blue=0
     
     # Load the input image and convert it to grayscale |EN
-    
     # Giriş görüntüsünü yükleyin ve gri tonlamaya dönüştür |TR
     _, image = cap.read()
     image = cv2.flip(image, 1)
@@ -76,7 +77,6 @@ while True:
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     
     # Detect faces in the grayscale image |EN
-    
     # Gri tonlamalı görüntüdeki yüzleri algıla |TR
     height, width, channels = image.shape
     rects = detector(gray, 0)
@@ -95,23 +95,20 @@ while True:
     gamers=["Null","Null",[_,_],[_,_]]
     
     # Loop over the face detections |EN
-    
     # Yüz algılamalarının üzerinden geç |TR
     for (i, rect) in enumerate(rects):
         
         # Array |EN
-        
         # Dizi |TR
         shape = predictor(gray, rect)
         shape = face_utils.shape_to_np(shape)
+        
         # Determining the 5 points on the face |EN
         # Yüzdeki 5 noktanın belirleme
-        
         midPoint = [int((shape[1][0]+shape[3][0])/2),int((shape[1][1]+shape[3][1])/2)]
         direction = ""
         
         # Finding the slope obtained from two points |EN
-        
         # İki noktadan elde edilen eğimi bulma |TR
         slope=math.atan((shape[4][1]-midPoint[1])/(shape[4][0]-midPoint[0]))
         
@@ -149,6 +146,8 @@ while True:
         for (x, y) in shape:
             cv2.circle(image, (x, y), 2, (0, 255, 0), -1)
         """
+    # 
+    # 
     if((gamers[0]=="sag" and gamers[1]=="sag") or (gamers[0]=="sol" and gamers[1]=="sol")):
         blue=0
         green=255
@@ -192,19 +191,44 @@ while True:
     
     if(nextQuestionValue==0):
         getQuestionValue=0
-    if(getQuestionValue==1 and nextQuestionValue==1):
+    
+    if(questionCounter>=5):
+        questionText=GetQuestion(True)
+    elif(getQuestionValue==1 and nextQuestionValue==1):
         questionText=GetQuestion(False)
+        questionCounter += 1
         gamersScore+=gamersPoint
         gamersPoint=0
         getQuestionValue=0
         nextQuestionValue=0
-    # show the output image with the face detections + facial landmarks
     
     cv2.rectangle(image, (int(width/2)-175,0) , (int(width/2)+175,50), ((blue, green, red)),cv2.FILLED)
     cv2.putText(image, str(questionText), (int(width/2)-175,25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 2, cv2.LINE_AA)
     cv2.putText(image, "Puan:"+str(gamersScore), (int(width/2)+95,45), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2, cv2.LINE_AA)
     
     cv2.imshow("Who's More", image)
+    
+    if(questionText=="Kim Daha Bitti GORUSURUZ :)"):
+        cv2.imwrite('oyun_sonucun.png', image)
+        cv2.rectangle(image, (10,125) , (width-10,375), ((153, 136, 119)),cv2.FILLED)
+        cv2.putText(image, "KAPATMAK ICIN", (10,150), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255,255,255), 3, cv2.LINE_AA)
+        cv2.putText(image, " ESC ", (int(width/2)-100,200), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0,0,255), 5, cv2.LINE_AA)
+        cv2.putText(image, "TUSUNA BASINIZ", (width-320,250), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (255,255,255), 3, cv2.LINE_AA)
+        cv2.line(image,(10,270),((width-10),270),(255,0,0),2)
+        cv2.putText(image, "Sonucunuz", (10,300), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
+        cv2.putText(image, os.path.dirname(os.path.abspath(__file__)), (10,325), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 2, cv2.LINE_AA)
+        cv2.putText(image, "konumuna kaydedildi.", (10,350), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 1, cv2.LINE_AA)
+        
+        
+        while True:
+            cv2.imshow("Who's More", image)
+            k = cv2.waitKey(5) & 0xFF
+            if k == 27:
+                finishBool=True
+                
+                break
+    if finishBool==True:
+        break
     k = cv2.waitKey(5) & 0xFF
     if k == 27:
         # You can close the game using the ESC key. |EN
