@@ -49,6 +49,13 @@ nextQuestionValue=0
 questionCounter=0
 finishBool=False
 questionText="Sorular Hemen Geliyor!"
+
+r1=119
+g1=136
+b1=153
+setPointValue=0
+setpointValue=1
+
 # initialize dlib's face detector and then create |EN
 
 # dlib'in yüz algılayıcısını başlat ve sonra oluştur |TR
@@ -146,8 +153,7 @@ while True:
         for (x, y) in shape:
             cv2.circle(image, (x, y), 2, (0, 255, 0), -1)
         """
-    # 
-    # 
+        
     if((gamers[0]=="sag" and gamers[1]=="sag") or (gamers[0]=="sol" and gamers[1]=="sol")):
         blue=0
         green=255
@@ -192,7 +198,7 @@ while True:
     if(nextQuestionValue==0):
         getQuestionValue=0
     
-    if(questionCounter>=5):
+    if(questionCounter>=10):
         questionText=GetQuestion(True)
     elif(getQuestionValue==1 and nextQuestionValue==1):
         questionText=GetQuestion(False)
@@ -201,8 +207,18 @@ while True:
         gamersPoint=0
         getQuestionValue=0
         nextQuestionValue=0
+        
+    if(nextQuestionValue==1):
+        r1=0
+        g1=255
+        b1=0
+    if(nextQuestionValue==0):
+        r1=255
+        g1=0
+        b1=0
     
     cv2.rectangle(image, (int(width/2)-175,0) , (int(width/2)+175,50), ((blue, green, red)),cv2.FILLED)
+    cv2.circle(image, (int(width/2)+155,15), 15, (b1, g1, r1), -1)
     cv2.putText(image, str(questionText), (int(width/2)-175,25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 2, cv2.LINE_AA)
     cv2.putText(image, "Puan:"+str(gamersScore), (int(width/2)+95,45), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255,255,255), 2, cv2.LINE_AA)
     
