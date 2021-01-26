@@ -26,4 +26,4 @@ YOUTUBE PLAYLIST OF THE PROJECT(TURKISH):
 
 PRESENTATION VIDEO(TURKISH):
 
-[![IMAGE ALT TEXT HERE](https://user-images.githubusercontent.com/36846516/105842208-e429e600-5fe6-11eb-8868-da3a0e770128.png)](https://www.youtube.com/watch?v=YurHIIZAhAr)
+[![IMAGE ALT TEXT HERE](https://user-images.githubusercontent.com/36846516/105842208-e429e600-5fe6-11eb-8868-da3a0e770128.png)](https://www.youtube.com/watch?v=urHIIZAhArs)
