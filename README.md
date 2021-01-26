@@ -20,10 +20,10 @@ IMAGES FROM THE PROJECT INTERFACE(MASCOT IS USED FOR TEST):
 
 ![image](https://user-images.githubusercontent.com/36846516/105840930-decb9c00-5fe4-11eb-9f5b-4dd5b1900d77.png)
 
-YOUTUBE PLAYLIST OF THE PROJECT:
+YOUTUBE PLAYLIST OF THE PROJECT(TURKISH):
 
 [![IYouTube Video List](https://i.ytimg.com/vi/YLEW9pvyfDk/hqdefault.jpg?sqp=-oaymwEXCNACELwBSFryq4qpAwkIARUAAIhCGAE=&rs=AOn4CLCA713sISVyo2tStw9Adh97zXa78w)](https://www.youtube.com/playlist?list=PLKGTAYcntqBkL3VlORkzGvgbqldmy5VQE)
 
-PRESENTATION VIDEO:
+PRESENTATION VIDEO(TURKISH):
 
 [![IMAGE ALT TEXT HERE](https://user-images.githubusercontent.com/36846516/105842208-e429e600-5fe6-11eb-8868-da3a0e770128.png)](https://www.youtube.com/watch?v=YurHIIZAhAr)
